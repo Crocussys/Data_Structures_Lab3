@@ -2,16 +2,15 @@
 
 Node::Node()
 {
+    id = -1;
     number = 0;
     right = nullptr;
     left = nullptr;
 }
-//Node::Node(int n, Node* l, Node* r)
-//{
-//    number = n;
-//    right = r;
-//    left = l;
-//}
+int Node::getId()
+{
+    return id;
+}
 int Node::getNumber()
 {
     return number;
@@ -23,6 +22,10 @@ Node* Node::getRight()
 Node* Node::getLeft()
 {
     return left;
+}
+void Node::setId(int ind)
+{
+    id = ind;
 }
 void Node::setNumber(int n)
 {
@@ -36,17 +39,25 @@ void Node::setLeft(Node* node)
 {
     left = node;
 }
-ostream& operator << (ostream &out, Node &node)
+void Node::print(int step)
 {
-    int n = node.getNumber();
-    out << n;
-    Node* right_node = node.getRight();
-    if (right_node != nullptr){
-        out << " -> " << *right_node;
+    int new_step = step + 4;  // Вычисляем отступ
+    float n = number;
+    while (n >= 1){
+        new_step++;
+        n /= 10;
     }
-    Node* left_node = node.getLeft();
-    if (left_node != nullptr){
-        out << endl << n << " -> " << *left_node;
+    cout << number;
+    if (right != nullptr){                // Правый потомок
+        cout << " -> ";
+        right->print(new_step);
     }
-    return out;
+    if (left != nullptr){                 // Левый потомок
+        cout << endl;
+        for (int i = 0; i < step; i++){
+            cout << " ";
+        }
+        cout << number << " -> ";
+        left->print(new_step);
+    }
 }
